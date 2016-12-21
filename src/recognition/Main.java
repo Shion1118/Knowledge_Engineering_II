@@ -29,7 +29,7 @@ public class Main{
 
         try {
             for (Future<Integer> f: futures) {
-                result.add((double)f.get() / 20);
+                result.add((double)f.get() / 20 * 100);
             }
         } catch (ExecutionException e) {
             e.printStackTrace();
@@ -38,9 +38,9 @@ public class Main{
         }
 
         for (double d: result) {
-            System.out.println(d * 100);
+            System.out.println(d);
         }
 
-        return;
+        System.exit(0);
 	}
 }
