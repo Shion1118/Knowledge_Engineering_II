@@ -16,9 +16,17 @@ public class Eigenpair {
 	public double[] getEigenValue() {
 		return this.eigenValue;
 	}
+
+    public double getEigenValue(int row) {
+        return this.eigenValue[row];
+    }
 	
 	public double[][] getEigenVector() {
 		return this.eigenVector;
+	}
+
+	public double[] getEigenVector(int row) {
+		return this.eigenVector[row];
 	}
 
 }

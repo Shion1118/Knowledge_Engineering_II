@@ -11,7 +11,7 @@ public class File {
 	String name;
 	
 	public File(String mode, int num) {
-		String number = new String(String.format("%02d", num + 1));
+		String number = new String(String.format("%02d", num));
 		switch (mode) {
 			case "data":
 				name = "lib/data/c" + number + ".txt";
@@ -61,7 +61,7 @@ public class File {
 		
 		try {
 		    for (String line; (line = br.readLine()) != null; i++) {
-		        tmp[i % row][i % col] = Double.parseDouble(line);
+		        tmp[i / col][i % col] = Double.parseDouble(line);
 		    }
 		} catch (IOException e) {
 			e.printStackTrace();
