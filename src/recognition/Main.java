@@ -2,6 +2,7 @@ package recognition;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.concurrent.*;
 
 public class Main{
 
@@ -11,21 +12,35 @@ public class Main{
 
         List<Character> chars = new ArrayList<>();
         List<Double> result = new ArrayList<>();
-        int cnt;
 
         for (int i = 0; i < HIRAGANA; ++i) {
             chars.add(new Character(i));
         }
 
+        ExecutorService exec = Executors.newFixedThreadPool(46);
+        List<Future<Integer>> futures = new ArrayList<>();
+        Future<Integer> future;
+
         for (int i = 0; i < HIRAGANA; ++i) {
-            cnt = 0;
-            for (int j = 180; j < 200; ++j) {
-                int num = Calc.Mahalanobis(chars, chars.get(i).getData(j), 180);
-                if (i == num) cnt++;
-            }
-            result.add((double) cnt / 20);
+            MahalanobisThread thread = new MahalanobisThread(chars, i);
+            future = exec.submit(thread);
+            futures.add(future);
         }
 
-        for (double d: result) System.out.println(d);
+        try {
+            for (Future<Integer> f: futures) {
+                result.add((double)f.get() / 20);
+            }
+        } catch (ExecutionException e) {
+            e.printStackTrace();
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+
+        for (double d: result) {
+            System.out.println(d * 100);
+        }
+
+        return;
 	}
 }
